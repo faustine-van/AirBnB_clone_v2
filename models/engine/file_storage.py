@@ -12,8 +12,6 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls is not None and hasattr(cls, '__objects'):
             return cls.__objects
-        else:
-            return self.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
