@@ -11,7 +11,11 @@ class FileStorage:
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         if cls is not None and hasattr(cls, '__objects'):
-            return cls.__objects
+            filter_objs = {}
+            for key, obj in self.__objects.item():
+                if isinstance(obj, cls):
+                    filter_objs[key] = obj
+            return filter_objs  # return cls.__objects
         else:
             return self.__objects
 
