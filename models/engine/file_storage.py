@@ -12,6 +12,8 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls is not None and hasattr(cls, '__objects'):
             return cls.__objects
+        else:
+            return self.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -56,10 +58,10 @@ class FileStorage:
             args:
                 obj: object to be deleted
         """
+        if obj is None:
+            return
         if obj is not None:
             if obj in self.__objects.values():
                 for key, val in list(self.__objects.items()):
                     if val == obj:
                         del self.__objects[key]
-        else:
-            return
