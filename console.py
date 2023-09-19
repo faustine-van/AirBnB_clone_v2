@@ -154,14 +154,14 @@ class HBNBCommand(cmd.Cmd):
                         continue
                 attrs[key] = val
         if attrs == {}:
-            obj = eval(class_name)()
-            # new_instance = HBNBCommand.classes[class_name](**attrs)
+            # obj = eval(class_name)()
+            new_instance = HBNBCommand.classes[class_name](**attrs)
         else:
             obj = eval(class_name)(**attrs)
-            # new_instance = HBNBCommand.classes[class_name](**attrs)
-            storage.new(obj)
-        print(obj.id)
-        obj.save()
+            new_instance = HBNBCommand.classes[class_name](**attrs)
+            storage.new(new_instance)
+        print(new_instance.id)
+        new_instance.save()
 
         # Create an instance of the specified class with the provided attrs
         # new_instance = HBNBCommand.classes[class_name](**attrs)
