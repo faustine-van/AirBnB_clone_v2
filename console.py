@@ -2,6 +2,9 @@
 """ Console Module """
 import cmd
 import sys
+import re
+import shlex
+from datetime import datetime
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -73,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -113,18 +116,60 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
+    def do_create(self, arg):
         """ Create an object of any class"""
-        if not args:
+        if not arg:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        args = arg.split(' ')
+
+        if args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+        class_name = args[0]
+        params = args[1:]
+        # create empty dictionary to attr and their values
+        attrs = {}
+        for param in params:
+            key_val = param.split('=')
+            key = key_val[0]
+            val = key_val[1]
+
+            # handle number, string and float escape
+            if val.startswith('"') and val.endswith('"'):
+
+                # remove quotes
+                val = val.strip('"').replace('_', ' ')
+                # replace _ with space
+                attrs[key] = val
+
+            else:
+                try:
+                    val = float(val)
+                except ValueError:
+                    try:
+                        val = int(val)
+                    except ValueError:
+                        # Skip parameters that don't match the format
+                        continue
+                attrs[key] = val
+        if attrs == {}:
+            # obj = eval(class_name)()
+            new_instance = HBNBCommand.classes[class_name](**attrs)
+        else:
+            # obj = eval(class_name)(**attrs)
+            new_instance = HBNBCommand.classes[class_name](**attrs)
+            storage.new(new_instance)
         print(new_instance.id)
-        storage.save()
+        new_instance.save()
+
+        # Create an instance of the specified class with the provided attrs
+        # new_instance = HBNBCommand.classes[class_name](**attrs)
+        #   new_instance = eval(class_name)(**attrs)
+        # storage.save()
+        # print(new_instance.id)
+        # print(val)
+        # storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -319,6 +364,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
