@@ -145,10 +145,10 @@ class HBNBCommand(cmd.Cmd):
 
             else:
                 try:
-                    val = float(val)
+                    val = int(val)
                 except ValueError:
                     try:
-                        val = int(val)
+                        val = float(val)
                     except ValueError:
                         # Skip parameters that don't match the format
                         continue
