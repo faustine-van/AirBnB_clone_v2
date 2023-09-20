@@ -17,8 +17,14 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        if cls is not None and hasattr(cls, '__objects'):
-            return cls.__objects
+        if cls is not None:
+            if type(cls) == str:
+                cls = eval(cls)
+            dict_cls = {}
+            for key, val in self.__objects.items():
+                if type(val) == cls:
+                    dict_cls[key] = val
+            return dict_cls
         else:
             return self.__objects
 
@@ -65,10 +71,8 @@ class FileStorage:
             args:
                 obj: object to be deleted
         """
-        if obj is None:
-            return
-        if obj is not None:
-            if obj in self.__objects.values():
-                for key, val in list(self.__objects.items()):
-                    if val == obj:
-                        del self.__objects[key]
+        try:
+            key = f"{type(obj).__name__}.{obj.id}"
+            del self.__objects[key]
+        except (KeyError, AttributeError):
+            pass
