@@ -77,5 +77,5 @@ class FileStorage:
         if obj is not None:
             if obj in self.__objects.values():
                 for key, val in list(self.__objects.items()):
-                if val == obj:
-                    del self.__objects[key]
+                    if val == obj:
+                        del self.__objects[key]
