@@ -72,7 +72,10 @@ class FileStorage:
             args:
                 obj: object to be deleted
         """
+        if obj is None:
+            return
         if obj is not None:
-            key = f"{type(obj).__name__}.{obj.id}"
-            if key in self.__objects:
-                del self.__objects[key]
+            if obj in self.__objects.values():
+                for key, val in list(self.__objects.items()):
+                if val == obj:
+                    del self.__objects[key]
