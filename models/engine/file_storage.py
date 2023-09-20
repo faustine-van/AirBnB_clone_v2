@@ -71,8 +71,7 @@ class FileStorage:
             args:
                 obj: object to be deleted
         """
-        try:
-            key = f"{type(obj).__name__}.{obj.id}"
-            del self.__objects[key]
-        except (KeyError, AttributeError):
-            pass
+        if obj is not None:
+            key = f"{obj.__class__.__name__}.{obj.id}"
+            if key in self.__objects:
+                del self.__objects[key]
