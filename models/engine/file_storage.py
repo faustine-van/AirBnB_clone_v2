@@ -2,13 +2,6 @@
 """This module defines a class to manage file storage for hbnb clone"""
 import json
 import shlex
-from models.base_model import BaseModel
-from models.user import User
-from models.place import Place
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.review import Review
 
 
 class FileStorage:
@@ -18,14 +11,8 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        dict_cls = {}
-        if cls is not None:
-            for key in self.__objects:
-                part = key.replace('.', ' ')
-                part = shlex.split(part)
-                if part[0] == cls.__name__:
-                    dict_cls[key] = self.__objects[key]
-            return dict_cls
+        if cls is not None and hasattr(cls, '__objects'):
+            return cls.__objects
         else:
             return self.__objects
 
