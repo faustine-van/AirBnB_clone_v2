@@ -2,10 +2,19 @@
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, Float
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Table
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+
+
+place_amenities = Table(
+        'place_amenities', Base.metadata,
+        Column('place_id', String(60),
+               ForeignKey('places.id'), primary_key=True, nullable=False),
+        Column('amenity_id', String(60),
+               ForeignKey('amenities.id'), primary_key=True, nullable=False),
+    )
 
 
 class Place(BaseModel, Base):
@@ -26,7 +35,7 @@ class Place(BaseModel, Base):
     # for DBStorage
     #  relationship with the class Review
     reviews = relationship(
-           'Review', backref='place', cascade='all, delete-orphan'
+           'Review', backref='places', cascade='all, delete-orphan'
            )
 
     # for FileStorage
@@ -37,3 +46,7 @@ class Place(BaseModel, Base):
             if review.Place.id == self.id:
                 list_of_reviews.append(review)
         return list_of_reviews
+
+    amenities = relationship(
+        'Amenity', secondary=place_amenities, viewonly=False
+       )
