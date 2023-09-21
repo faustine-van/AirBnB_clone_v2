@@ -16,7 +16,14 @@ class User(BaseModel, Base):
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
 
+    # for DBStorage
     # create relationship with the class Place
     places = relationship(
                       'Place', backref='user', cascade='all, delete-orphan'
-                     )
+
+                    )
+    # relationship with the class Review.
+
+    reviews = relationship(
+        'Review', backref='user', cascade='all, delete-orphan'
+          )

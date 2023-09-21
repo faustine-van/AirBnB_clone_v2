@@ -127,6 +127,7 @@ class HBNBCommand(cmd.Cmd):
         params = args[1:]
         # create empty dictionary to attr and their values
         attrs = {}
+        new_instance = HBNBCommand.classes[class_name]()
         for param in params:
             key_val = param.split('=')
             key = key_val[0]
@@ -150,19 +151,17 @@ class HBNBCommand(cmd.Cmd):
                         # Skip parameters that don't match the format
                         continue
                 attrs[key] = val
-        if attrs == {}:
+        """if attrs == {}:
             # obj = eval(class_name)()
             new_instance = HBNBCommand.classes[class_name](**attrs)
         else:
             obj = eval(class_name)(**attrs)
             new_instance = HBNBCommand.classes[class_name](**attrs)
-            storage.new(new_instance)
+            # storage.new(new_instance)"""
+        new_instance = HBNBCommand.classes[class_name](**attrs)
+        print(new_instance)
         print(new_instance.id)
         new_instance.save()
-
-        # Create an instance of the specified class with the provided attrs
-        # new_instance = HBNBCommand.classes[class_name](**attrs)
-        #   new_instance = eval(class_name)(**attrs)
 
     def help_create(self):
         """ Help information for the create method """
@@ -244,11 +243,13 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            # for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            # for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)

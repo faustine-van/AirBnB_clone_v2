@@ -22,3 +22,18 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     amenity_ids = []
+
+    # for DBStorage
+    #  relationship with the class Review
+    reviews = relationship(
+           'Review', backref='place', cascade='all, delete-orphan'
+           )
+
+    # for FileStorage
+    @property
+    def reviews(self):
+        list_of_reviews = {}
+        for review in storage.all(Review).values():
+            if review.Place.id == self.id:
+                list_of_reviews.append(review)
+        return list_of_reviews

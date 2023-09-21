@@ -13,7 +13,7 @@ class State(BaseModel, Base):
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
 
-    # create relationship with the class City
+    # For DBStorage: create relationship with the class City
     cities = relationship(
                     'City', backref='state', cascade='all, delete-orphan')
 
