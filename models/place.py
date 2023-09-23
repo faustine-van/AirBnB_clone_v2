@@ -6,14 +6,17 @@ from sqlalchemy import create_engine, Table
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from os import getenv
 
 
-place_amenities = Table(
-        'place_amenities', Base.metadata,
-        Column('place_id', String(60),
-               ForeignKey('places.id'), primary_key=True, nullable=False),
-        Column('amenity_id', String(60),
-               ForeignKey('amenities.id'), primary_key=True, nullable=False),
+place_amenity = Table(
+    'place_amenity', Base.metadata,
+    Column('place_id', String(60),
+           ForeignKey('places.id',  onupdate="CASCADE", ondelete="CASCADE"),
+           nullable=False, primary_key=True),
+    Column('amenity_id', String(60),
+           ForeignKey('amenities.id', onupdate="CASCADE", ondelete="CASCADE"),
+           nullable=False, primary_key=True)
     )
 
 
@@ -38,6 +41,11 @@ class Place(BaseModel, Base):
            'Review', backref='places', cascade='all, delete-orphan'
            )
 
+    amenities = relationship(
+            'Amenity', secondary=place_amenity,
+            back_populates='place_amenities', viewonly=False
+       )
+
     # for FileStorage
     @property
     def reviews(self):
@@ -46,7 +54,3 @@ class Place(BaseModel, Base):
             if review.Place.id == self.id:
                 list_of_reviews.append(review)
         return list_of_reviews
-
-    amenities = relationship(
-        'Amenity', secondary=place_amenities, viewonly=False
-       )
