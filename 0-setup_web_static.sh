@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 # script that sets up your web servers for the deployment of web_static
-sudo apt-get update
-sudo apt-get -y install nginx
+apt-get update
+apt-get -y install nginx
 
 # create folder
-sudo mkdir -p /data/web_static/shared/
-sudo mkdir -p  /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
+mkdir -p  /data/web_static/releases/test/
 
 # create sysmbolic link
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 # change user user and group
-sudo chown -hR ubuntu:ubuntu /data/
+chown -hR ubuntu:ubuntu /data/
 # content
-sudo echo "<html>
+echo "<html>
   <head>
   </head>
   <body>
@@ -23,7 +23,7 @@ sudo echo "<html>
 
 # Update Nginx to serve the content of /data/web_static/current/ to hbnb_static
 str="\\\tlocation {\n\t alias /data/web_static/current;\n\t}"
-sudo sed -i "62i $str" /etc/nginx/sites-available/default
+sed -i "62i $str" /etc/nginx/sites-available/default
 
 # restart
-sudo service nginx restart
+service nginx restart
