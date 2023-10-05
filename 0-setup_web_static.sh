@@ -4,6 +4,7 @@ apt-get update
 apt-get -y install nginx
 
 # create folder
+mkdir -p /data/web_static/releases/
 mkdir -p /data/web_static/shared/
 mkdir -p  /data/web_static/releases/test/
 
@@ -19,7 +20,7 @@ echo "<html>
   <body>
     Holberton School
   </body>
-</html>" | sudo tee /data/web_static/releases/test/index.html
+</html>" | tee /data/web_static/releases/test/index.html
 
 # Update Nginx to serve the content of /data/web_static/current/ to hbnb_static
 str="\\\tlocation {\n\t alias /data/web_static/current;\n\t}"
