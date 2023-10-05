@@ -22,7 +22,8 @@ sudo echo "<html>
 </html>" | sudo tee /data/web_static/releases/test/index.html
 
 # Update Nginx to serve the content of /data/web_static/current/ to hbnb_static
-sudo sed -i "62i	location {\n\t alias /data/web_static/current;\n\t}" /etc/nginx/sites-available/default
+str="\\\tlocation {\n\t alias /data/web_static/current;\n\t}"
+sudo sed -i "62i $str" /etc/nginx/sites-available/default
 
 # restart
 sudo service nginx restart
