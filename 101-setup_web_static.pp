@@ -8,7 +8,7 @@ package { 'nginx':
   recursive => true,
 }
 
--> exec { '/data/web_static/shared/':
+-> file { '/data/web_static/shared/':
   ensure    => 'directory',
   resursive => true,
 }
