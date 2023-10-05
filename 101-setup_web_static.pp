@@ -3,14 +3,14 @@
 package { 'nginx':
   ensure => 'present',
 }
--> file { '/data/web_static/releases/test/':
-  ensure    => 'directory'
-  recursive => true,
+-> exec { 'create folder for file':
+  command  => 'mkdir -p /data/web_static/releases/test/',
+  provider => 'shell',
 }
 
--> file { '/data/web_static/shared/':
-  ensure    => 'directory',
-  resursive => true,
+-> exec { 'create folder for shared':
+  command  => 'mkdir -p /data/web_static/shared/',
+  provider => 'shell',
 }
 -> file { '/data/web_static/releases/test/index':
   ensure  => 'file',
