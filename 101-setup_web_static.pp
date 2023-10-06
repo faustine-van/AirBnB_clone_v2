@@ -31,3 +31,7 @@ package { 'nginx':
   command  => 'sed -i "51 i \\n\tlocation /hbnb_static {\n\talias /data/web_static/current;\n\t}" /etc/nginx/sites-available/default',
   provider => 'shell',
 }
+-> service { 'nginx':
+  ensure  => running,
+  reqiure => Package['nginx'],
+}
