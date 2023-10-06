@@ -21,7 +21,12 @@ package { 'nginx':
   command  => 'ln -sf /data/web_static/releases/test/ /data/web_static/current',
   provider => 'shell',
 }
-
+-> file { '/data/':
+  ensure  => 'directory',
+  owner   => 'ubuntu',
+  group   => 'ubuntu',
+  recurse = true,
+}
 
 -> exec { 'add to the server to serve content':
   command  => 'sed -i "51 i \\n\tlocation /hbnb_static {\n\talias /data/web_static/current;\n\t}" /etc/nginx/sites-available/default',
