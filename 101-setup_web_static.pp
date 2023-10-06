@@ -1,10 +1,7 @@
 # sets up your web servers for the deployment of web_static
 
-exec {'update':
-  command => 'sudo /usr/bin/apt-get update',
-}
--> package { 'nginx':
-  ensure => 'installed',
+package { 'nginx':
+  ensure => 'present',
 }
 -> exec { 'create folder for file':
   command  => 'sudo mkdir -p /data/web_static/releases/test/',
@@ -17,14 +14,7 @@ exec {'update':
 }
 -> file { '/data/web_static/releases/test/index.html':
   ensure  => 'file',
-  content =>
-"<html>
-  <head>
-  </head>
-  <body>
-    Holberton School
-  </body>
-</html>",
+  content => 'Holberton School',
 }
 
 -> exec { 'create symbolic link':
@@ -41,6 +31,7 @@ exec {'update':
   command  => 'sudo sed -i "51 i \\n\tlocation /hbnb_static {\n\talias /data/web_static/current;\n\t}" /etc/nginx/sites-available/default',
   provider => 'shell',
 }
+
 -> exec { 'restart server':
   command  => 'sudo service nginx restart',
   provider => 'shell',
