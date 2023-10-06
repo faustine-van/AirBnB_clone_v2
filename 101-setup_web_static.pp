@@ -25,7 +25,7 @@ package { 'nginx':
   ensure  => 'directory',
   owner   => 'ubuntu',
   group   => 'ubuntu',
-  recurse = true,
+  recurse => true,
 }
 
 -> exec { 'add to the server to serve content':
