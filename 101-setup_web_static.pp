@@ -12,7 +12,7 @@ package { 'nginx':
   command  => 'mkdir -p /data/web_static/shared/',
   provider => 'shell',
 }
--> file { '/data/web_static/releases/test/index':
+-> file { '/data/web_static/releases/test/index.html':
   ensure  => 'file',
   content => 'Holberton School',
 }
