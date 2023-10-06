@@ -1,7 +1,7 @@
 # sets up your web servers for the deployment of web_static
 
 package { 'nginx':
-  ensure => 'present',
+  ensure => 'present'
 }
 -> exec { 'create folder for file':
   command  => 'mkdir -p /data/web_static/releases/test/',
@@ -29,10 +29,5 @@ package { 'nginx':
 
 -> exec { 'add to the server to serve content':
   command  => 'sed -i "51 i \\n\tlocation /hbnb_static {\n\talias /data/web_static/current;\n\t}" /etc/nginx/sites-available/default',
-  provider => 'shell',
-}
-
--> exec { 'restart server':
-  command  => 'service nginx restart',
   provider => 'shell',
 }
