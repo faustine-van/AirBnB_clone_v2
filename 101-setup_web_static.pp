@@ -17,7 +17,14 @@ exec {'update':
 }
 -> file { '/data/web_static/releases/test/index.html':
   ensure  => 'file',
-  content => 'Holberton School',
+  content =>
+"<html>
+  <head>
+  </head>
+  <body>
+    Holberton School
+  </body>
+</html>",
 }
 
 -> exec { 'create symbolic link':
