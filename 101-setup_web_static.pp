@@ -1,7 +1,10 @@
 # sets up your web servers for the deployment of web_static
 
-package { 'nginx':
-  ensure => 'present',
+exec {'update':
+  command => '/usr/bin/apt-get update',
+}
+-> package { 'nginx':
+  ensure => 'installed',
 }
 -> exec { 'create folder for file':
   command  => 'mkdir -p /data/web_static/releases/test/',
@@ -21,11 +24,10 @@ package { 'nginx':
   command  => 'ln -sf /data/web_static/releases/test/ /data/web_static/current',
   provider => 'shell',
 }
--> file { '/data/':
-  ensure  => 'directory',
-  owner   => 'ubuntu',
-  group   => 'ubuntu',
-  recurse => true,
+
+-> exec { 'change owner':
+  command  => 'chown -hR ubuntu:ubuntu /data/',
+  provider => 'shell',
 }
 
 -> exec { 'add to the server to serve content':
