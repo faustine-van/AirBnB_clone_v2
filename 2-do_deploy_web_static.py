@@ -11,7 +11,7 @@ def do_deploy(archive_path):
     """distributes an archive to your web servers"""
 
     # check if path exists
-    if not os.path.exists(archive_path) is False:
+    if os.path.exists(archive_path) is False:
         return False
     name = archive_path.split('/')
     f_name = name[-1].split('.')
