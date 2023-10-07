@@ -20,18 +20,18 @@ def do_clean(number=0):
     lpath = 'versions'
     rpath = '/data/web_static/releases'
 
-    # Define versions for local and releases on the remote server
-    l_archives = sorted(listdir('versions'))
-    r_archives = sorted(listdir('/data/web_static/releases'))
-
     archives_to_keep = num
-
-    # delete locally
-    with cd(lpath):
-        for archive in l_archives[:-archives_to_keep]:
-            local('rm -rf {}'.format(archive))
 
     # delete remotely
     with cd(rpath):
+        r_archives = run('ls -tr').split()
+
         for archive in r_archives[:-archives_to_keep]:
-            run('rm -rf {}'.format(archive))
+            if "web_static_" in archive:
+                run('rm -rf {}'.format(archive))
+
+    # delete locally
+    with cd(lpath):
+        l_archives = local('ls -tr').split()
+        for archive in l_archives[:-archives_to_keep]:
+            local('rm -rf {}'.format(archive))
