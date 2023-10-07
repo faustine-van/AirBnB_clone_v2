@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-# distributes an archive to your web servers, using the function do_deploy
+"""distributes an archive to your web servers, using the function do_deploy"""
+
 import os
 from fabric.api import *
 
 env.hosts = ['18.234.105.144', '54.165.39.106']
-env.user = 'ubuntu'
 
-
+@task
 def do_deploy(archive_path):
     """distributes an archive to your web servers"""
 
@@ -42,18 +42,15 @@ def do_deploy(archive_path):
     if run(f'mv {f_file} {final_path}').failed is True:
         return False
 
-    rem_r_file = sudo(f'rm -rf {r_file}')
-    if rem_r_file.failed:
+    if run(f'rm -rf {r_file}').failed is True:
         return False
     # delete symbolic link
 
-    removelink = sudo('rm -rf /data/web_static/current')
-    if removelink.failed:
+    if run('rm -rf /data/web_static/current').failed is True:
         return False
 
     # create new the symbolic link /data/web_static/current
-    new_link = sudo(f'ln -sf {final_path} /data/web_static/current')
-    if new_link.failed:
+    if run(f'ln -sf {final_path} /data/web_static/current').failed is True:
         return False
 
     return True
