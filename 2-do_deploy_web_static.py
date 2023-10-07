@@ -30,14 +30,15 @@ def do_deploy(archive_path):
         # extract all files to the folder
         run(f'tar -xzf /tmp/{f_name[0]}.tgz -C {path}')
         # delete arhcive
-        run('rm -rf /tmp/{f_name[0]}.tgz')
+        run(f'rm -rf /tmp/{f_name[0]}.tgz')
         # mv file
-        run(f'mv {f_file} {final_path}')
+        run(f'mv {f_file} /data/web_static/releases/{f_name[0]}/')
         run(f'rm -rf {r_file}')
         # delete symbolic link
         run('rm -rf /data/web_static/current')
         # create new the symbolic link /data/web_static/current
-        run(f'ln -sf {final_path} /data/web_static/current')
+        current = '/data/web_static/current'
+        run(f'ln -sf /data/web_static/releases/{f_name[0]}/ {current}')
         return True
     except Exception:
         return False
