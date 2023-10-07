@@ -28,24 +28,21 @@ def do_deploy(archive_path):
     if upload.failed:
         return False
 
-    new = run(f'mkdir -p /data/web_static/releases/{f_name[0]}/')
-    if new.failed:
+    if run(f'mkdir -p /data/web_static/releases/{f_name[0]}/').failed is True:
         return False
 
     # extract all files to the folder
-    extract = sudo(f'tar -xzf /tmp/{f_name[0]}.tgz -C {path}')
-    if extract.failed:
-        return False
-
-    # mv file
-    mv_file = sudo(f'mv {f_file} {final_path}')
-    if mv_file.failed:
+    if run(f'tar -xzf /tmp/{f_name[0]}.tgz -C {path}').failed is True:
         return False
 
     # delete arhcive
-    rem = sudo('rm -rf /tmp/{f_name[0]}.tgz')
-    if rem.failed:
+    if run('rm -rf /tmp/{f_name[0]}.tgz').failed is True:
         return False
+
+    # mv file
+    if run(f'mv {f_file} {final_path}').failed is True:
+        return False
+
     rem_r_file = sudo(f'rm -rf {r_file}')
     if rem_r_file.failed:
         return False
