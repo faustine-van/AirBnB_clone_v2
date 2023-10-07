@@ -12,17 +12,26 @@ def do_clean(number=0):
         args:
           - number: number of the archives, including the most recent, to keep.
     """
-    if number < 2:
-        return  # Nothing to clean if keeping 0 or 1 archive
+    num = int(number)
+    if num < 2:
+        num = 1
 
     # Define paths for versions for local and releases on the remote server
     lpath = 'versions'
     rpath = '/data/web_static/releases'
 
-    if env.local_run:
-        # Clean locally in the "versions" directory
-        local("cd {} && ls -1tr | head -n -{} | xargs -d '\n' rm -f --".format(
-            lpath, number))
-    else:
-        run("cd {} && ls -1tr | head -n -{} | xargs -d '\n' rm -f --".format(
-            rpath, number))
+    # Define versions for local and releases on the remote server
+    l_archives = sorted(listdir('versions'))
+    r_archives = sorted(listdir('/data/web_static/releases'))
+
+    archives_to_keep = num
+
+    # delete locally
+    with cd(lpath):
+        for archive in l_archives[:-archives_to_keep]:
+            local('rm -rf {}'.format(archive))
+
+    # delete remotely
+    with cd(rpath):
+        for archive in r_archives[:-archives_to_keep]:
+            run('rm -rf {}'.format(archive))
