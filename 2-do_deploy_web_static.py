@@ -24,17 +24,11 @@ def do_deploy(archive_path):
     # uploading all file
     put(archive_path, '/tmp/')
     new = run('mkdir -p /data/web_static/releases/web_static_20231005220524/')
-    if new.failed:
-        return False
     # extract all files to the folder
     extract = run(f'tar -xzf /tmp/web_static_20231005220524.tgz -C {path}')
-    if extract.failed:
-        return False
 
     # mv file
     mv_file = run(f'mv {f_file} {final_path}')
-    if mv_file.failed:
-        return False
 
     # delete arhcive
     run('rm -rf /tmp/web_static_20231005220524.tgz')
