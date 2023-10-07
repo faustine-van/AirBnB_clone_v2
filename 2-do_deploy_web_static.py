@@ -22,22 +22,40 @@ def do_deploy(archive_path):
         return False
 
     # uploading all file
-    put(archive_path, '/tmp/')
+    upload = put(archive_path, '/tmp/')
+    if upload.failed:
+        return False
+
     new = run('mkdir -p /data/web_static/releases/web_static_20231005220524/')
+    if new.failed:
+        return False
+
     # extract all files to the folder
     extract = run(f'tar -xzf /tmp/web_static_20231005220524.tgz -C {path}')
+    if extract.failed:
+        return False
 
     # mv file
     mv_file = run(f'mv {f_file} {final_path}')
+    if mv_file.failed:
+        return False
 
     # delete arhcive
-    run('rm -rf /tmp/web_static_20231005220524.tgz')
-    run(f'rm -rf {r_file}')
+    rem = run('rm -rf /tmp/web_static_20231005220524.tgz')
+    if rem.failed:
+        return False
+    rem_r_file = run(f'rm -rf {r_file}')
+    if rem_r_file.failed:
+        return False
     # delete symbolic link
 
-    run('rm -rf /data/web_static/current')
+    removelink = run('rm -rf /data/web_static/current')
+    if removelink.failed:
+        return False
 
     # create new the symbolic link /data/web_static/current
-    run(f'ln -sf {final_path} /data/web_static/current')
+    new_link = run(f'ln -sf {final_path} /data/web_static/current')
+    if new_link.failed:
+        return False
 
     return True
