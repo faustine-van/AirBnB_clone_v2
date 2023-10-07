@@ -21,7 +21,7 @@ def do_deploy(archive_path):
         # define variables
         path = f'/data/web_static/releases/{f_name[0]}/'
         f_file = f'/data/web_static/releases/{f_name[0]}/web_static/*'
-        final_path = '/data/web_static/releases/{f_name[0]}/'
+        # final_path = '/data/web_static/releases/{f_name[0]}/'
         r_file = '/data/web_static/releases/{f_name[0]}/web_static'
 
         # uploading all file
