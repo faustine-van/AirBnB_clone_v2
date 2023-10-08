@@ -39,6 +39,7 @@ def do_deploy(archive_path):
         # create new the symbolic link /data/web_static/current
         current = '/data/web_static/current'
         run(f'ln -sf /data/web_static/releases/{f_name[0]}/ {current}')
+        print("New version deployed!")
         return True
     except Exception:
         return False
