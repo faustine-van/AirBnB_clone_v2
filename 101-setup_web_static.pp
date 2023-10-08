@@ -3,6 +3,12 @@
 package { 'nginx':
   ensure => 'present',
 }
+
+-> exec { 'X-Served-By':
+  command  => 'sed -i "42i	add_header X-Served-By $\hostname;" /etc/nginx/sites-available/default',
+  provider => 'shell',
+}
+
 -> exec { 'create folder for file':
   command  => 'sudo mkdir -p /data/web_static/releases/test/',
   provider => 'shell',
