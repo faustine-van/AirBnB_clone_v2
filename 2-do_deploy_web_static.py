@@ -5,6 +5,7 @@ from os.path import exists
 from fabric.api import run, task, put, env
 
 env.hosts = ['18.234.105.144', '54.165.39.106']
+env.user = 'ubuntu'
 
 
 @task
