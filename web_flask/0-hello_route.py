@@ -1,9 +1,6 @@
 #!/usr/bin/python3
 """starts a Flask web application"""
-
-from flask import Flask
-
-app = Flask('__name__')
+from web_flask import app
 
 
 @app.route('/', strict_slashes=False)
@@ -17,4 +14,4 @@ def hello():
 
 if __name__ == "__main__":
     # python3 -m web_flask.0-hello_route
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5000)
