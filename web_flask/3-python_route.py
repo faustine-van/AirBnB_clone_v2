@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """starts a Flask web application"""
 
-from flask import Flask
+from flask import Flask, url_for
 import re
-app = Flask('__name__')
+app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
@@ -44,9 +44,9 @@ def handleVar1(text):
         - The default value of text is “is cool”
     """
     new_text = re.sub('_', ' ', text)
-    return f'C {new_text}'
+    return f'Python {new_text}'
 
 
 if __name__ == "__main__":
     # python3 -m web_flask.0-hello_route
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5000)
