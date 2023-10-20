@@ -65,3 +65,7 @@ class FileStorage:
                 for key, val in list(self.__objects.items()):
                     if val == obj:
                         del self.__objects[key]
+
+    def close(self):
+        """ deserializing the JSON file to objects """
+        reload()
