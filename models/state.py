@@ -17,10 +17,15 @@ class State(BaseModel, Base):
     cities = relationship(
                     'City', backref='state', cascade='all, delete-orphan')
 
-    @property
-    def cities(self):
-        list_of_cities = []
-        for city in storage.all(City).values():
-            if city.state_id == self.id:
-                list_of_cities.append(city)
-        return list_of_cities
+    if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+
+        @property
+        def cities(self):
+            """return the list of City objects from storage 
+               linked to the current State
+            """
+            list_of_cities = []
+            for city in models.storage.all(City).values():
+                if city.state_id == self.id:
+                        list_of_cities.append(city)
+            return list_of_cities
