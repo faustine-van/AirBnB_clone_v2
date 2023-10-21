@@ -4,7 +4,7 @@
     <TITLE>HBNB</TITLE>
   </HEAD>
   <BODY>
-    <H1>{{Table}}</H1>
+    <H1>{{name}}</H1>
     <UL>
       {%for state in states.values() | sort(attribute='name')%}
       <LI>{{ state.id }}: <B>{{ state.name }}</B>
