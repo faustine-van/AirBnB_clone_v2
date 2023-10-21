@@ -31,7 +31,7 @@ def cities_by_states():
     states = storage.all('State')
 
     # An empty dict to store all cities
-    return render_template('8-cities_by_states.html', states=states)
+    return render_template('8-cities_by_states.html', Table="States",  states=states)
 
 
 if __name__ == "__main__":
