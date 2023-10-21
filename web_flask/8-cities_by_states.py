@@ -31,16 +31,7 @@ def cities_by_states():
     states = storage.all('State')
 
     # An empty dict to store all cities
-    citiesState = {}
-    for state in states.values():
-        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-            # Use the cities relationship if using DBStorage
-            cities = state.cities
-        else:
-            # Use the public getter method if not using DBStorage
-            cities = state.cities()
-        citiesState[state] = cities
-    return render_template('8-cities_by_states.html', citiesState=citiesState)
+    return render_template('8-cities_by_states.html', states=states)
 
 
 if __name__ == "__main__":
