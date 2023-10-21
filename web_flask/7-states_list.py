@@ -9,6 +9,8 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+states = storage.all('State')
+
 
 @app.route('/states_list', strict_slashes=False)
 def states_list():
@@ -19,8 +21,7 @@ def states_list():
              in DBStorage sorted by name (A->Z) tip
          - LI tag: description of one State: <state.id>: <B><state.name></B>
     """
-    states = storage.all('State').values()
-    all_states = sorted(states, key=lambda state: state.name)
+    all_states = sorted(states.values(), key=lambda state: state.name)
     return render_template('7-states_list.html', all_states=all_states)
 
 
