@@ -40,7 +40,6 @@ def cities_by_states():
         else:
             # Use the public getter method if not using DBStorage
             cities = state.cities()
-        cities = sorted(cities, key=lambda city: city.name)
         citiesState[state] = cities
     return render_template('8-cities_by_states.html', citiesState=citiesState)
 
