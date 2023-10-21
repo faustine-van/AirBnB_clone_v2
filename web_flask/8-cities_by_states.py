@@ -29,11 +29,10 @@ def cities_by_states():
           - LI tag: description of one City: <city.id>: <B><city.name></B>
     """
     states = storage.all('State')
-    all_states = sorted(states.values(), key=lambda state: state.name)
 
     # An empty dict to store all cities
     citiesState = {}
-    for state in all_states:
+    for state in states.values():
         if os.getenv('HBNB_TYPE_STORAGE') == 'db':
             # Use the cities relationship if using DBStorage
             cities = state.cities
