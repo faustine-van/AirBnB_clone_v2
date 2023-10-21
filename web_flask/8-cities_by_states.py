@@ -20,8 +20,10 @@ def teardown_appcontext(Exception):
 def cities_by_states():
     """
       - H1 tag: “States”
-        - UL tag: with the list of all State objects present in DBStorage sorted by name (A->Z) tip
-         - LI tag: description of one State: <state.id>: <B><state.name></B> + UL tag: with the list
+        - UL tag: with the list of all State objects present 
+            in DBStorage sorted by name (A->Z) tip
+         - LI tag: description of one State: <state.id>: 
+               <B><state.name></B> + UL tag: with the list
               of City objects linked to the State sorted by name (A->Z)
           - LI tag: description of one City: <city.id>: <B><city.name></B>
     """
@@ -29,11 +31,17 @@ def cities_by_states():
     all_states = sorted(states.values(), key=lambda state: state.name)
 
     # An empty dict to store all cities
-    cities_by_state = {}
+    citiesByState = {}
     for state in all_states:
-        cities = sorted(state.cities, key=lambda city: city.name)
-        cities_by_state[state] = cities
-    return render_template('8-cities_by_states.html', cities_by_state=cities_by_state)
+        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+            # Use the cities relationship if using DBStorage
+            cities = state.cities
+        else:
+            # Use the public getter method if not using DBStorage
+            cities = state.cities()
+        cities = sorted(cities, key=lambda city: city.name)
+        citiesByState[state] = cities
+    return render_template('8-cities_by_states.html', citiesByState=citiesByState)
 
 
 if __name__ == "__main__":
