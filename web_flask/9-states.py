@@ -4,7 +4,6 @@ starts a Flask web application
  - Your web application must be listening on 0.0.0.0,
     port 5000
 """
-import os
 from models import storage
 from flask import Flask, render_template
 
@@ -23,10 +22,10 @@ def states_list():
      - /statest route
     """
     states = storage.all('State')
-    all_states = sorted(states.values(), key=lambda state: state.name)
+    # all_states = sorted(states.values(), key=lambda state: state.name)
     return render_template(
                            '9-states.html',
-                           all_states=all_states,
+                           states=states,
                            name='States'
                            )
 
