@@ -36,10 +36,14 @@ def cities_by_states(id):
          cities_by_states
     """
     states = storage.all()
-    state = next((state for state in states.values() if state.id == id), None)
+    # state = next((state for state in states.values() if state.id == id), None)
+    state = None
+    for stat_obj in states.values():
+        if state_obj.id == id:
+            state = state_obj
+            break
     if state:
         cities = state.cities
-        # An empty dict to store all cities
         return render_template(
             '9-states.html', state=state, cities=cities, not_found=False
         )
