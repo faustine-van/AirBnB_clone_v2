@@ -27,8 +27,8 @@ def states_list():
     return render_template(
                            '9-states.html',
                            all_states=all_states,
-                           name='States',
-                           page='states')
+                           name='States'
+                           )
 
 
 @app.route('/states/<id>', strict_slashes=False)
