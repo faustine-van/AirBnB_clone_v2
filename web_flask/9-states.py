@@ -42,7 +42,7 @@ def cities_by_states(id):
         cities = state.cities
         # An empty dict to store all cities
         return render_template(
-            '9-states.html', state=state, cities=cities
+            '9-states.html', state=state, cities=cities, not_found=False
         )
     else:
         return render_template('9-states.html', not_found=True), 404
