@@ -13,22 +13,26 @@ app = Flask(__name__)
 
 @app.teardown_appcontext
 def teardown_appcontext(Exception):
+    """teardown"""
     storage.close()
 
 
-@app.route('/hbnb_filters', strict_slashes=False)
-def hbnb_filters():
+@app.route('/hbnb', strict_slashes=False)
+def hbnb():
     """
-       - /hbnb_filters route
+       - /hbnb route
     """
     states = storage.all('State')
     amenities = storage.all('Amenity')
+    places = storage.all('Place')
     return render_template(
-          '10-hbnb_filters.html',
+          '100-hbnb.html',
           S_name='States',
           states=states,
           A_name='Amenities',
-          amenities=amenities)
+          amenities=amenities,
+          P_name='Places',
+          places=places)
 
 
 if __name__ == "__main__":
