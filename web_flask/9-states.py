@@ -25,16 +25,23 @@ def states_list():
     # all_states = sorted(states.values(), key=lambda state: state.name)
     return render_template(
                            '9-states.html',
+                           name='States',
                            states=states
                            )
 
 
+@app.route('/states', strict_slashes=False)
 @app.route('/states/<id>', strict_slashes=False)
-def cities_by_states(id):
+def cities_by_states(id=None):
     """
          cities_by_states
     """
     states = storage.all()
+    if not id:
+        return render_template(
+                '9-states.html',
+                name='States',
+                states=states)
     # state=next((state for state in states.values() if state.id==id), None)
     state = None
     for state_obj in states.values():
@@ -44,7 +51,8 @@ def cities_by_states(id):
     if state:
         cities = state.cities
         return render_template(
-            '9-states.html', state=state, cities=cities, not_found=False
+            '9-states.html',
+            state=state, cities=cities, not_found=False
         )
     else:
         return render_template('9-states.html', not_found=True), 404
