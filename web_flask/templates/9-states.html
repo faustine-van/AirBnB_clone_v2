@@ -18,10 +18,11 @@
     </UL>
     {% else %}
     <H1>States</H1>
-    <UL>
+    <UL>{% if states %}
         {% for state in states.values() | sort(attribute='name') %}
         <LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
         {% endfor %}
+	{% endif %}
     </UL>
     {% endif %}
 </BODY>
