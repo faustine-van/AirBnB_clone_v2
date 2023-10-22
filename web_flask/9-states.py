@@ -23,11 +23,11 @@ def states_list():
     """
     states = storage.all('State')
     # all_states = sorted(states.values(), key=lambda state: state.name)
-    return render_template(
-                           '9-states.html',
-                           states=states,
-                           name='States'
-                           )
+    if states:
+        return render_template(
+                               '9-states.html',
+                               states=states
+                             )
 
 
 @app.route('/states/<id>', strict_slashes=False)
