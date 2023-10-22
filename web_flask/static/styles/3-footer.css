@@ -1,0 +1,13 @@
+/*---foote----r*/
+footer{
+    position:fixed;
+    bottom: 0;
+    background-color:white;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    text-align: center;
+    border-top: solid 1px #CCCCCC;
+    padding: auto 0;
+    justify-content: center;
+}
