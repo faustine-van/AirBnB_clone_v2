@@ -17,26 +17,12 @@ def teardown_appcontext(Exception):
 
 
 @app.route('/states', strict_slashes=False)
-def states_list():
-    """
-     - /statest route
-    """
-    states = storage.all('State')
-    # all_states = sorted(states.values(), key=lambda state: state.name)
-    return render_template(
-                           '9-states.html',
-                           name='States',
-                           states=states
-                           )
-
-
-@app.route('/states', strict_slashes=False)
 @app.route('/states/<id>', strict_slashes=False)
 def cities_by_states(id=None):
     """
          cities_by_states
     """
-    states = storage.all()
+    states = storage.all('State')
     if not id:
         return render_template(
                 '9-states.html',
